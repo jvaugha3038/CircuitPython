@@ -1,16 +1,29 @@
 import board
-import neopixel
 from time import sleep
+import pwmio
+import servo
+from digitalio import DigitalInOut, Direction
+angle = 90
 
-dot = neopixel.NeoPixel(board.NEOPIXEL, 1)
-dot.brightness = 0.5 
 
-print("Make it red!")
+pwm = pwmio.PWMOut(board.A1, duty_cycle=2 ** 15, frequency=50)
+
+# Create a servo object, my_servo.
+my_servo = servo.Servo(pwm)
+
+button = DigitalInOut(board.D7)
+button.direction = Direction.INPUT
+button2 = DigitalInOut(board.D6)
+button2.direction = Direction.INPUT
+
 
 while True:
-    dot.fill((255, 0, 0))
-    sleep(1)
-    dot.fill((0,255,0))
-    sleep(1)
-    dot.fill((0,0,255))
-    sleep(1)
+    if button.value and angle < 180:
+        angle += 1
+
+    if button2.value and angle > 0:
+        angle -=1
+   
+    print(angle)
+    my_servo.angle = angle
+    sleep(0.01)
