@@ -1,5 +1,5 @@
 # CPyProjectTemplate
-Put a description for your project here!
+This project controls a servo with 2 buttons. one button moves the servo one way, and the other button moves it the other way.
 This repo is a template VS code project for CircuitPython projects that automatically uploads your code to the board when you press F5. Requires F5Anything extension.
 ## Use
 ### Every new project:
