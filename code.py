@@ -1,29 +1,33 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
+import time
 import board
-from time import sleep
-import pwmio
-import servo
-from digitalio import DigitalInOut, Direction
-angle = 90
+import neopixel
+import adafruit_hcsr04
+import simpleio
 
-
-pwm = pwmio.PWMOut(board.A1, duty_cycle=2 ** 15, frequency=50)
-
-# Create a servo object, my_servo.
-my_servo = servo.Servo(pwm)
-
-button = DigitalInOut(board.D7)
-button.direction = Direction.INPUT
-button2 = DigitalInOut(board.D6)
-button2.direction = Direction.INPUT
-
-
+sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.D5, echo_pin=board.D6)
+dot = neopixel.NeoPixel(board.NEOPIXEL, 1)
+dot.brightness = 0.5 
+d=0
+r=0
+b=0
+g=0
 while True:
-    if button.value and angle < 180:
-        angle += 1
-
-    if button2.value and angle > 0:
-        angle -=1
-   
-    print(angle)
-    my_servo.angle = angle
-    sleep(0.01)
+    try:
+        d = (sonar.distance)
+        print(d)  #prints distance
+        
+    except RuntimeError:
+        print("Retrying!")
+    time.sleep(0.05)
+    if d <= 20:  #maps color values based on distance
+        r=(simpleio.map_range(d,5,20,255,0))
+        b=(simpleio.map_range(d,5,20,0,255))
+        g=0
+    elif d <= 35 and d > 20:
+        r=0
+        b=(simpleio.map_range(d,20,35,255,0))
+        g=(simpleio.map_range(d,20,35,0,255))
+    dot.fill((r,g,b)) #sets neopixel to r,g,b
