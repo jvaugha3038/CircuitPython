@@ -1,5 +1,8 @@
 # CPyProjectTemplate
-This project controls a neopixel, which fades from red to blue to green based on the distance an ultrasonic sensor produces.
+blink.py controls a neopixel and makes it blink red, green, and blue
+servo.py controls a servo with 2 buttons, one button moves the servo one way, and the other button moves it the other way.
+ultrasensor.py controls a neopixel, which fades from red to blue to green based on the distance an ultrasonic sensor produces.
+lcd.py makes an LCD screen print a number, which can be increased and decreased with one button. a second button controls whether the first button increases or decreases the number.
 This repo is a template VS code project for CircuitPython projects that automatically uploads your code to the board when you press F5. Requires F5Anything extension.
 ## Use
 ### Every new project:
