@@ -1,3 +1,6 @@
+#jayden vaughan
+#LCD counting assignment
+#lcd.py makes an LCD screen print a number, which can be increased and decreased with one button. a second button controls whether the first button increases or decreases the number.
 import board
 from lcd.lcd import LCD
 from lcd.i2c_pcf8574_interface import I2CPCF8574Interface

@@ -1,3 +1,7 @@
+#jayden vaughan
+#button + servo assignment
+#controls a servo with 2 buttons, one button moves the servo one way, and the other button moves it the other way.
+#thanks to afton vanhooser for help
 import board
 from time import sleep
 import pwmio
