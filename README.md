@@ -51,6 +51,6 @@ board, time.sleep, digitalio.DigitalInOut, digitalio.Direction, LCD(from lcd.lcd
 ## Code
 ![image](https://user-images.githubusercontent.com/112961338/192549323-0a317b1f-465a-4520-8b76-30a9581cef41.png)
 ## Wiring
-![image](https://user-images.githubusercontent.com/112961338/192550440-3a3004ca-866e-4ac5-ae4c-97e41e3ebbd8.png)
+![image](https://user-images.githubusercontent.com/112961338/192551649-81cf4202-75e5-4c22-84b8-5747447f2505.png)
 ## Reflection
 This assignment seemed very complicated at the start, but the wiring was very similar to the servo.py wiring, and we were given a lot of freedom within it (see "count-o-tron 900"). This was definitely the most fun assignment so far.
