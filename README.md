@@ -1,5 +1,6 @@
-# CPyProjectTemplate
---blink.py controls a neopixel and makes it blink red, green, and blue. 
+
+# blink.py 
+Controls a neopixel and makes it blink red, green, and blue. 
 
 libraries required:
 
@@ -15,7 +16,8 @@ Code
 
 
 
---servo.py controls a servo with 2 buttons, one button moves the servo one way, and the other button moves it the other way. 
+# servo.py 
+Controls a servo with 2 buttons, one button moves the servo one way, and the other button moves it the other way. 
 
 libraries required:
 
@@ -27,12 +29,14 @@ Code
 
 
 
---ultrasensor.py controls a neopixel, which fades from red to blue to green based on the distance an ultrasonic sensor produces. 
+# ultrasensor.py 
+Controls a neopixel, which fades from red to blue to green based on the distance an ultrasonic sensor produces. 
 
 libraries required:
 
 time.sleep, board, neopixel, adafruit_hcsr04, simpleio
 
-lcd.py makes an LCD screen print a number, which can be increased and decreased with one button. a second button controls whether the first button increases or decreases the number.
+# lcd.py
+Makes an LCD screen print a number, which can be increased and decreased with one button. a second button controls whether the first button increases or decreases the number.
 
 
