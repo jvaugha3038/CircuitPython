@@ -15,6 +15,8 @@ board, neopixel, time.sleep
 All libraries required (except time.sleep) can be found in the bundle: https://circuitpython.org/libraries
 ## Code
 ![image](https://user-images.githubusercontent.com/112961338/191976543-13d5759d-2f82-4997-a063-4db2cf937ab6.png)
+## Evidence
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/112961338/193049719-032fa94f-a18e-4824-8b91-dd4695897ab6.gif)
 ## Reflection
 This was a fairly simple assignment overall. It was basically a test to make sure VS Code and the Metro M4's actually worked.
 # `servo.py` 
@@ -60,5 +62,7 @@ board, time.sleep, digitalio.DigitalInOut, digitalio.Direction, LCD(from lcd.lcd
 ![image](https://user-images.githubusercontent.com/112961338/192549323-0a317b1f-465a-4520-8b76-30a9581cef41.png)
 ## Wiring
 ![image](https://user-images.githubusercontent.com/112961338/192551649-81cf4202-75e5-4c22-84b8-5747447f2505.png)
+## Evidence
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/112961338/193049116-ff705893-cd41-4f89-84db-9e2196635437.gif)
 ## Reflection
 This assignment seemed very complicated at the start, but the wiring was very similar to the servo.py wiring, and we were given a lot of freedom within it (see "count-o-tron 900"). This was definitely the most fun assignment so far.
