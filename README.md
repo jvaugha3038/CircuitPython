@@ -58,7 +58,7 @@ Most of my time spent on this assignment was me trying to figure out a way to ma
 Makes an LCD screen print a number, which can be increased and decreased with one button. a second button controls whether the first button increases or decreases the number.
 ## Goal
 Use 2 inputs(buttons, switches, etc.) to control a number on an LCD. one button increases the number by 1, the other button switches whether the 1st button increases or decreases the number. Holding either button won't repeat the action.
-## libraries required:
+## Libraries required:
 board, time.sleep, digitalio.DigitalInOut, digitalio.Direction, LCD(from lcd.lcd), I2CPCF8574Interface(from lcd.i2c_pcf8574_interface)
 ## Code
 ![image](https://user-images.githubusercontent.com/112961338/192549323-0a317b1f-465a-4520-8b76-30a9581cef41.png)
