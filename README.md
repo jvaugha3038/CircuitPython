@@ -1,9 +1,9 @@
 ## Table of Contents
 * [Table of Contents](#TableOfContents)
-* [blink.py](#blink.py)
-* [servo.py](#servo.py)
-* [ultrasensor.py](#ultrasensor.py)
-* [lcd.py](#lcd.py)
+* [blink.py](#blinkpy)
+* [servo.py](#servopy)
+* [ultrasensor.py](#ultrasensorpy)
+* [lcd.py](#lcdpy)
 ---
 # `blink.py`
 Controls a neopixel and makes it blink red, green, and blue. 
@@ -19,7 +19,7 @@ All libraries required (except time.sleep) can be found in the bundle: https://c
 ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/112961338/193049719-032fa94f-a18e-4824-8b91-dd4695897ab6.gif)
 ## Reflection
 This was a fairly simple assignment overall. It was basically a test to make sure VS Code and the Metro M4's actually worked.
-# `servo.py` 
+# `servo.py`
 Controls a servo with 2 buttons, one button moves the servo one way, and the other button moves it the other way. 
 ## Goal
 To get a micro servo to sweep back and forth with 2 buttons.
