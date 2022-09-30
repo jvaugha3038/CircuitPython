@@ -30,7 +30,7 @@ board, time.sleep, pwmio, servo, digitalio.DigitalInOut, digitalio.Direction
 ## Wiring
 ![image](https://user-images.githubusercontent.com/112961338/192543191-aa17c350-e8f0-4e44-871f-a25ccecde198.png)
 ## Evidence
-
+https://user-images.githubusercontent.com/112961338/193276559-804bfd3b-e2af-48be-a515-75a5b8d43e00.mp4
 ## Reflection
 This project took a bit longer than it should've, and it turns out the problems were that the signal wire was on the wrong side of the button, and that one of my buttons just didn't work. Past those problems, the assignment was pretty simple.
 # `ultrasensor.py` 
