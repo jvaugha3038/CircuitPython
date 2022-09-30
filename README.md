@@ -50,6 +50,8 @@ GND|GND
 VCC|5V
 TRIG|D5
 ECHO|D6
+## Evidence
+https://user-images.githubusercontent.com/112961338/193276790-ac05f340-8184-4312-8d2b-35f6b1026090.mp4
 ## Reflection
 Most of my time spent on this assignment was me trying to figure out a way to make the neopixel fade properly (it produced purple, yellow, and a handful of other colors that shouldn't have happened), and variables quickly solved that problem when I added them. Overall, a tricky assignment.
 # `lcd.py`
