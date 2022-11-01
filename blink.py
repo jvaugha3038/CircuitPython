@@ -1,9 +1,13 @@
-import board
+#jayden vaughan
+#neopixel blinking assignment
+#controls a neopixel and makes it blink red, green, and blue.
+
+import board #importing libraries
 import neopixel
 from time import sleep
 
-dot = neopixel.NeoPixel(board.NEOPIXEL, 1)
-dot.brightness = 0.5 
+dot = neopixel.NeoPixel(board.NEOPIXEL, 1) #sets the neopixel to a variable "dot"
+dot.brightness = 0.5 #sets brightness. don't change this
 
 print("Make it red!")
 

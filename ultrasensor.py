@@ -2,7 +2,6 @@
 #ultrasonic sensor assignment
 #controls a neopixel, which fades from red to blue to green based on the distance an ultrasonic sensor produces.
 #credit to afton vanhooser for help
-
 import time
 import board
 import neopixel
