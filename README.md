@@ -4,6 +4,7 @@
 * [servo.py](#servopy)
 * [ultrasensor.py](#ultrasensorpy)
 * [lcd.py](#lcdpy)
+* [temp.py](#temppy)
 ---
 # `blink.py`
 Controls a neopixel and makes it blink red, green, and blue. 
@@ -68,3 +69,21 @@ board, time.sleep, digitalio.DigitalInOut, digitalio.Direction, LCD(from lcd.lcd
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/112961338/193049116-ff705893-cd41-4f89-84db-9e2196635437.gif)
 ## Reflection
 This assignment seemed very complicated at the start, but the wiring was very similar to the servo.py wiring, and we were given a lot of freedom within it (see "count-o-tron 900"). This was definitely the most fun assignment so far.
+# `temp.py`
+Uses a temperature sensor to accurately display the temperature (in celcius and fahrenheit!) on an LCD screen.
+## Goal
+Use a temperature sensor to display the temperature on an LCD screen.
+## Libraries required:
+board, time.sleep, analogio.AnalogIn, LCD(from lcd.lcd), I2CPCF8574Interface(from lcd.i2c_pcf8574_interface)
+## Code
+![image](https://user-images.githubusercontent.com/112961338/225021856-dfdacb5c-6f11-41c4-a8b9-3b5ffb72453e.png)
+## Wiring
+![20230314_094945](https://user-images.githubusercontent.com/112961338/225025515-fbd786ea-a3b4-419c-a4dd-37893fa5880b.jpg)
+## Evidence
+https://user-images.githubusercontent.com/112961338/225024414-15ca2db0-48de-450b-b9c4-d0ff106516a7.mp4
+## Reflection
+This assignment, like the LCD one, was very fun to mess around with. I decided that I could also display fahrenheit along with celcius to spice it up, so I did that.
+
+
+
+
