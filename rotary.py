@@ -17,7 +17,7 @@ last_position = None
 while True:
     position = encoder.position
     if last_position is None or position != last_position:
-        lcd.print(position)
+        lcd.print(str(position))
         sleep(.5)
         lcd.clear()
     last_position = position
