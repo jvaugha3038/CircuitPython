@@ -13,24 +13,24 @@ i2c = board.I2C()
 
 # some LCDs are 0x3f... some are 0x27.
 lcd = LCD(I2CPCF8574Interface(i2c, 0x27), num_rows=2, num_cols=16)
+#screen test
 lcd.print("hey")
 sleep(1)
 lcd.clear()
+#setting up stuff
 encoder = rotaryio.IncrementalEncoder(board.D2, board.D3, divisor=2)
-button = digitalio.DigitalInOut(board.D12)
+button = digitalio.DigitalInOut(board.D4)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
-
 rled = DigitalInOut(board.D8)
 rled.direction = Direction.OUTPUT
 yled = DigitalInOut(board.D9)
 yled.direction = Direction.OUTPUT
 gled = DigitalInOut(board.D10)
 gled.direction = Direction.OUTPUT
-
+encoder.position=0
 light=1
 last_position = 1
-button_state = None
 
 while True:
     position = encoder.position
@@ -38,21 +38,20 @@ while True:
         light+=1
     elif position == (last_position-1):
         light-=1
-    if light>3:
+    if light>3 or light<0:
         light=1
+#checks which light is selected
     if light == 1:
-            lcd.print('''change to
+        lcd.print('''change to
 red''')
     if light == 2:
-            lcd.print('''change to
+        lcd.print('''change to
 yellow''')
     if light == 3:
-            lcd.print('''change to
+        lcd.print('''change to
 green''')
-    
-    if not button.value and button_state is None:
-        button_state = "pressed"
-    if button.value and button_state == "pressed":
+    #activates light if button is down
+    if not button.value:
         if light == 1:
             rled.value=True
             yled.value=False
@@ -69,4 +68,3 @@ green''')
     last_position = position
     sleep(.5)
     lcd.clear()
-    button_state = None
