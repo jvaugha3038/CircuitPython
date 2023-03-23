@@ -103,7 +103,22 @@ board, time.sleep, digtitalio, LCD(from lcd.lcd), I2CPCF8574Interface(from lcd.i
 ## Evidence
 https://user-images.githubusercontent.com/112961338/226640856-aa997050-44f3-4af0-a779-f53bf481f5f4.mp4
 ## Reflection
-This one was very 
+This one was very annoying, mainly due to unrelated VSCode problems. Trying to figure out what to actually do also took a bit of time, but after that it was mostly fine. Also, LCDs just don't like working.
+
+# `photointerruptor.py`
+Uses a photointerrupter, and displays how many times its been interrupted on an LCD screen.
+## Goal
+USe a photointerrupter and print how many times it has been interrupted.
+## Libraries required:
+board, time, digtitalio, LCD(from lcd.lcd), I2CPCF8574Interface(from lcd.i2c_pcf8574_interface), digitalio
+## Code
+![image](https://user-images.githubusercontent.com/112961338/227223485-ebefa9f1-096e-437c-ad97-e9d821c0d146.png)
+## Wiring
+![20230323_094048](https://user-images.githubusercontent.com/112961338/227223771-9b9dc38d-43a3-4c7a-bacd-25430a1e3b3e.jpg)
+## Evidence
+![ezgif com-crop](https://user-images.githubusercontent.com/112961338/227224235-1fbebaed-71a6-4c6a-9a87-8b26ece9bef9.gif)
+## Reflection
+This may have been the easiest project we've had so far. Ignoring VSCode problems, it took about 15 minutes to finish the code and get it to work. Also, I had to display it on an LCD because VSCode is being terrible, meaning I got to reuse my LCD code for probably the 4th time.
 
 
 
