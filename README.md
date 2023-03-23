@@ -6,6 +6,7 @@
 * [lcd.py](#lcdpy)
 * [temp.py](#temppy)
 * [rotary.py](#rotarypy)
+* [photo.py](#photopy)
 ---
 # `blink.py`
 Controls a neopixel and makes it blink red, green, and blue. 
@@ -105,7 +106,7 @@ https://user-images.githubusercontent.com/112961338/226640856-aa997050-44f3-4af0
 ## Reflection
 This one was very annoying, mainly due to unrelated VSCode problems. Trying to figure out what to actually do also took a bit of time, but after that it was mostly fine. Also, LCDs just don't like working.
 
-# `photointerruptor.py`
+# `photo.py`
 Uses a photointerrupter, and displays how many times its been interrupted on an LCD screen.
 ## Goal
 USe a photointerrupter and print how many times it has been interrupted.
