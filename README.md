@@ -5,6 +5,8 @@
 * [ultrasensor.py](#ultrasensorpy)
 * [lcd.py](#lcdpy)
 * [temp.py](#temppy)
+* [rotary.py](#rotarypy)
+* [photo.py](#photopy)
 ---
 # `blink.py`
 Controls a neopixel and makes it blink red, green, and blue. 
@@ -20,6 +22,7 @@ All libraries required (except time.sleep) can be found in the bundle: https://c
 ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/112961338/193049719-032fa94f-a18e-4824-8b91-dd4695897ab6.gif)
 ## Reflection
 This was a fairly simple assignment overall. It was basically a test to make sure VS Code and the Metro M4's actually worked.
+
 # `servo.py`
 Controls a servo with 2 buttons, one button moves the servo one way, and the other button moves it the other way. 
 ## Goal
@@ -34,6 +37,7 @@ board, time.sleep, pwmio, servo, digitalio.DigitalInOut, digitalio.Direction
 https://user-images.githubusercontent.com/112961338/193276559-804bfd3b-e2af-48be-a515-75a5b8d43e00.mp4
 ## Reflection
 This project took a bit longer than it should've, and it turns out the problems were that the signal wire was on the wrong side of the button, and that one of my buttons just didn't work. Past those problems, the assignment was pretty simple.
+
 # `ultrasensor.py` 
 Controls a neopixel, which fades from red to blue to green based on the distance an ultrasonic sensor produces. 
 ## Goal
@@ -55,6 +59,7 @@ ECHO|D6
 https://user-images.githubusercontent.com/112961338/193276790-ac05f340-8184-4312-8d2b-35f6b1026090.mp4
 ## Reflection
 Most of my time spent on this assignment was me trying to figure out a way to make the neopixel fade properly (it produced purple, yellow, and a handful of other colors that shouldn't have happened), and variables quickly solved that problem when I added them. Overall, a tricky assignment.
+
 # `lcd.py`
 Makes an LCD screen print a number, which can be increased and decreased with one button. a second button controls whether the first button increases or decreases the number.
 ## Goal
@@ -69,12 +74,13 @@ board, time.sleep, digitalio.DigitalInOut, digitalio.Direction, LCD(from lcd.lcd
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/112961338/193049116-ff705893-cd41-4f89-84db-9e2196635437.gif)
 ## Reflection
 This assignment seemed very complicated at the start, but the wiring was very similar to the servo.py wiring, and we were given a lot of freedom within it (see "count-o-tron 900"). This was definitely the most fun assignment so far.
+
 # `temp.py`
 Uses a temperature sensor to accurately display the temperature (in celcius and fahrenheit!) on an LCD screen.
 ## Goal
 Use a temperature sensor to display the temperature on an LCD screen.
 ## Libraries required:
-board, time.sleep, analogio.AnalogIn, LCD(from lcd.lcd), I2CPCF8574Interface(from lcd.i2c_pcf8574_interface)
+board, time.sleep, analogio, LCD(from lcd.lcd), I2CPCF8574Interface(from lcd.i2c_pcf8574_interface)
 ## Code
 ![image](https://user-images.githubusercontent.com/112961338/225021856-dfdacb5c-6f11-41c4-a8b9-3b5ffb72453e.png)
 ## Wiring
@@ -84,6 +90,36 @@ https://user-images.githubusercontent.com/112961338/225024414-15ca2db0-48de-450b
 ## Reflection
 This assignment, like the LCD one, was very fun to mess around with. I decided that I could also display fahrenheit along with celcius to spice it up, so I did that.
 
+# `rotary.py`
+Uses a rotary encoder and an LCD to create a menu for selecting an LED.
+## Goal
+Use a rotary encoder to select and activate a set of LEDs, with an LCD screen to display the menu.
+## Libraries required:
+board, time.sleep, digtitalio, LCD(from lcd.lcd), I2CPCF8574Interface(from lcd.i2c_pcf8574_interface), rotaryio
+## Code
+![image](https://user-images.githubusercontent.com/112961338/226637992-fe7325c6-140a-4205-914a-b6587c4c2757.png)
+![image](https://user-images.githubusercontent.com/112961338/226638007-4470b8af-35d6-4ef8-9dcb-859ed6a2450a.png)
+## Wiring
+![20230321_103059](https://user-images.githubusercontent.com/112961338/226639417-6d31bfce-8167-4dba-8fcb-740024777547.jpg)
+## Evidence
+https://user-images.githubusercontent.com/112961338/226640856-aa997050-44f3-4af0-a779-f53bf481f5f4.mp4
+## Reflection
+This one was very annoying, mainly due to unrelated VSCode problems. Trying to figure out what to actually do also took a bit of time, but after that it was mostly fine. Also, LCDs just don't like working.
+
+# `photo.py`
+Uses a photointerrupter, and displays how many times its been interrupted on an LCD screen.
+## Goal
+USe a photointerrupter and print how many times it has been interrupted.
+## Libraries required:
+board, time, digtitalio, LCD(from lcd.lcd), I2CPCF8574Interface(from lcd.i2c_pcf8574_interface), digitalio
+## Code
+![image](https://user-images.githubusercontent.com/112961338/227223485-ebefa9f1-096e-437c-ad97-e9d821c0d146.png)
+## Wiring
+![20230323_094048](https://user-images.githubusercontent.com/112961338/227223771-9b9dc38d-43a3-4c7a-bacd-25430a1e3b3e.jpg)
+## Evidence
+![ezgif com-crop](https://user-images.githubusercontent.com/112961338/227224235-1fbebaed-71a6-4c6a-9a87-8b26ece9bef9.gif)
+## Reflection
+This may have been the easiest project we've had so far. Ignoring VSCode problems, it took about 15 minutes to finish the code and get it to work. Also, I had to display it on an LCD because VSCode is being terrible, meaning I got to reuse my LCD code for probably the 4th time.
 
 
 
