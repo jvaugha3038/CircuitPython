@@ -88,7 +88,8 @@ board, time.sleep, analogio, LCD(from lcd.lcd), I2CPCF8574Interface(from lcd.i2c
 ## Evidence
 https://user-images.githubusercontent.com/112961338/225024414-15ca2db0-48de-450b-b9c4-d0ff106516a7.mp4
 ## Reflection
-This assignment, like the LCD one, was very fun to mess around with. I decided that I could also display fahrenheit along with celcius to spice it up, so I did that.
+Here we enter the age of VSCode being garbage.
+This assignment, like the LCD one, was very fun to mess around with. I decided that I could also display fahrenheit along with celcius to spice it up, so I did that. I had to figure out what order to have the lcd.clear and all of the print messages in, so it didnt flood the screen with nonsense or clear things before you could even read them.
 
 # `rotary.py`
 Uses a rotary encoder and an LCD to create a menu for selecting an LED.
@@ -119,7 +120,7 @@ board, time, digtitalio, LCD(from lcd.lcd), I2CPCF8574Interface(from lcd.i2c_pcf
 ## Evidence
 ![ezgif com-crop](https://user-images.githubusercontent.com/112961338/227224235-1fbebaed-71a6-4c6a-9a87-8b26ece9bef9.gif)
 ## Reflection
-This may have been the easiest project we've had so far. Ignoring VSCode problems, it took about 15 minutes to finish the code and get it to work. Also, I had to display it on an LCD because VSCode is being terrible, meaning I got to reuse my LCD code for probably the 4th time.
+This may have been the easiest project we've had so far. Ignoring VSCode problems, it took about 15 minutes to finish the code and get it to work. Also, I had to display it on an LCD because VSCode was being terrible, meaning I got to reuse my LCD code for probably the 4th time. This made the project take much less time, though.
 
 
 
