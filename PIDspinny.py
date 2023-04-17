@@ -39,11 +39,10 @@ prev=0
 
 while True:
     position = encoder.position
-    print("Gyro X:%.2f, Y: %.2f, Z: %.2f rad/s" % (mpu.gyro))
     sleep(.05)
     prev=deg
-    deg=((int(mpu.gyro([0],3)))*.05*(180/3.14))+prev
-    print(str(deg))
+    deg=(round(float(mpu.gyro[0])+0.038, 1)*(.05)*(180/3.14))+prev
+
     
 
     if ack==2:
@@ -56,7 +55,7 @@ while True:
         elif menu>4:
             menu=1
         Previous_error=Error
-        Error = Setpoint - MV
+        Error = Setpoint - deg
         Integral = Integral + (Error*dt)
         Derivative = (Error - Previous_error)/dt
         Drive = (Error*kP) + (Integral*kI) + Derivative*kD
