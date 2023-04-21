@@ -6,7 +6,6 @@ import rotaryio
 import digitalio
 import adafruit_mpu6050
 import pwmio
-from simple_pid import PID
 
 # get and i2c object
 i2c = board.I2C()
@@ -26,27 +25,47 @@ button = digitalio.DigitalInOut(board.D4)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
-pid = PID(1, 0, 0, setpoint=45)
-pid.sample_time = 0.01
-v = controlled_system.update(0)
-pid.output_limits = (0, 10)
-
 deg=0
-kP=1
-kI=0
-kD=0
+KP=1
+KI=0
+KD=0
 encoder.position=0
 menu=1
 last_position = 0
-Setpoint=45
-dt=5
+Set=45
+dt=2
 prev=0
+ierr=0
+op=0
 
 while True:
+    def pid(Set,deg,prev,ierr,dt):
+        # Parameters in terms of PID coefficients
+        op0 = 0
+        # upper and lower bounds on heater level
+        ophi = 100
+        oplo = 0
+        # calculate the error
+        prev=deg
+        error = Set-deg
+        # calculate the integral error
+        ierr = ierr + KI * error * dt
+        # calculate the measurement derivative
+        dpv = (deg - prev) / dt
+        # calculate the PID output
+        P = KP * error
+        I = ierr
+        D = -KD * dpv
+        op = op0 + P + I + D
+        # implement anti-reset windup
+        if op < oplo or op > ophi:
+            I = I - KI * error * dt
+            # clip output
+            op = max(oplo,min(ophi,op))
+        # return the controller output and PID terms
+        return [op,P,I,D]
     position = encoder.position
-    time.sleep(.05)
-    prev=deg
-    deg=(round(float(mpu.gyro[0])+0.038, 1)*(.05)*(180/3.14))+prev
+    deg=(round(float(mpu.gyro[0])+0.038, 1)*(dt)*(180/3.14))+prev
     if position == (last_position+1):
         menu+=1
     elif position == (last_position-1):
@@ -55,33 +74,32 @@ while True:
         menu=4
     elif menu>4:
         menu=1
-    control = pid(v)
-    v = controlled_system.update(control)
-    output = pid(current_value)
-#checks which light is selected
+
+#checks which page is selected
     if menu == 1:
         lcd.clear()
-        lcd.print("kP = "+str(pid.Kp))
+        lcd.print("kP = "+str(KP))
     if menu == 2:
         lcd.clear()
-        lcd.print("kI = "+str(pid.Ki))
+        lcd.print("kI = "+str(KI))
     if menu == 3:
         lcd.clear()
-        lcd.print("kD = "+str(pid.Kd))
+        lcd.print("kD = "+str(KD))
     if menu == 4:
         lcd.clear()
-        lcd.print("kP="+str(pid.Kp)+"| kI="+str(pid.Ki)+"| kD="+str(pid.Kd))
-    #activates light if button is down
+        lcd.print("kP="+str(KP)+"  kI="+str(KI)+"  kD="+str(KD))
+    #increases variable by 1 if button is down
     if not button.value:
         if menu == 1:
-            pid.Kp += 1.0
+            KP += 1
         if menu == 2:
-            pid.Ki += 1.0
+            KI += 1
         if menu == 3:
-            pid.Kd += 1.0
+            KD += 1
         time.sleep(.2)
     last_position = position
     time.sleep(.2)
     print("-------------")
-    print(output)
-    
+    print(str(op))
+    print(str(deg))
+    pid(Set,deg,prev,ierr,dt)
