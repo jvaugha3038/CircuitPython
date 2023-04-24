@@ -1,7 +1,3 @@
-
-
-
-
 import board
 from time import sleep
 import pwmio
