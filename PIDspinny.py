@@ -27,36 +27,41 @@ button.pull = digitalio.Pull.UP
 
 deg=0
 KP=1
-KI=0
-KD=0
+KI=1
+KD=1
 encoder.position=0
-menu=1
-last_position = 0
+menu=4
+last_position = -2
 Set=45
-dt=2
-prev=0
+dt=.25
+prev = 0
 ierr=0
 op=0
-
-while True:
-    def pid(Set,deg,prev,ierr,dt):
+P=0
+I=0
+D=0
+def pid(Set,deg,prev,ierr,dt,KP,KI,KD):
         # Parameters in terms of PID coefficients
         op0 = 0
         # upper and lower bounds on heater level
         ophi = 100
         oplo = 0
         # calculate the error
-        prev=deg
+        print("prev = "+str(prev))
+        deg=(round(float(mpu.gyro[0])+0.038, 1)*(dt)*(180/3.14159))+prev
+        dpv = (deg - prev) / dt
+        prev = deg
         error = Set-deg
         # calculate the integral error
         ierr = ierr + KI * error * dt
         # calculate the measurement derivative
-        dpv = (deg - prev) / dt
+
         # calculate the PID output
         P = KP * error
         I = ierr
         D = -KD * dpv
         op = op0 + P + I + D
+        print(str(deg))
         # implement anti-reset windup
         if op < oplo or op > ophi:
             I = I - KI * error * dt
@@ -64,8 +69,10 @@ while True:
             op = max(oplo,min(ophi,op))
         # return the controller output and PID terms
         return [op,P,I,D]
+
+while True:
+    print(str(pid(Set,deg,prev,ierr,dt,KP,KI,KD)))
     position = encoder.position
-    deg=(round(float(mpu.gyro[0])+0.038, 1)*(dt)*(180/3.14))+prev
     if position == (last_position+1):
         menu+=1
     elif position == (last_position-1):
@@ -76,18 +83,17 @@ while True:
         menu=1
 
 #checks which page is selected
-    if menu == 1:
+    if position != last_position or not button.value:
         lcd.clear()
-        lcd.print("kP = "+str(KP))
-    if menu == 2:
-        lcd.clear()
-        lcd.print("kI = "+str(KI))
-    if menu == 3:
-        lcd.clear()
-        lcd.print("kD = "+str(KD))
+        if menu == 1:
+            lcd.print("kP = "+str(KP))
+        if menu == 2:
+            lcd.print("kI = "+str(KI))
+        if menu == 3:
+            lcd.print("kD = "+str(KD))
     if menu == 4:
         lcd.clear()
-        lcd.print("kP="+str(KP)+"  kI="+str(KI)+"  kD="+str(KD))
+        lcd.print("output= "+str(op))
     #increases variable by 1 if button is down
     if not button.value:
         if menu == 1:
@@ -96,10 +102,8 @@ while True:
             KI += 1
         if menu == 3:
             KD += 1
-        time.sleep(.2)
     last_position = position
-    time.sleep(.2)
+    time.sleep(dt)
     print("-------------")
-    print(str(op))
-    print(str(deg))
-    pid(Set,deg,prev,ierr,dt)
+
+#    pid(Set,deg,prev,ierr,dt,KP,KI,KD)
