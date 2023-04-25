@@ -35,12 +35,15 @@ last_position = -2
 Set=45
 dt=.25
 prev = 0
+deg = 0
 ierr=0
 op=0
 P=0
 I=0
 D=0
-def pid(Set,deg,prev,ierr,dt,KP,KI,KD):
+def pid(Set,ierr,dt,KP,KI,KD):
+        global prev
+        global deg
         # Parameters in terms of PID coefficients
         op0 = 0
         # upper and lower bounds on heater level
@@ -48,9 +51,12 @@ def pid(Set,deg,prev,ierr,dt,KP,KI,KD):
         oplo = 0
         # calculate the error
         print("prev = "+str(prev))
-        deg=(round(float(mpu.gyro[0])+0.038, 1)*(dt)*(180/3.14159))+prev
-        dpv = (deg - prev) / dt
+        print("deg = "+str(deg))
         prev = deg
+        
+        deg=(round(float(mpu.gyro[0])+0.038, 1)*(dt)*(180/3.14159))+prev
+        
+        dpv = (deg - prev) / dt
         error = Set-deg
         # calculate the integral error
         ierr = ierr + KI * error * dt
@@ -61,23 +67,24 @@ def pid(Set,deg,prev,ierr,dt,KP,KI,KD):
         I = ierr
         D = -KD * dpv
         op = op0 + P + I + D
-        print(str(deg))
         # implement anti-reset windup
         if op < oplo or op > ophi:
             I = I - KI * error * dt
             # clip output
             op = max(oplo,min(ophi,op))
         # return the controller output and PID terms
-        return [op,P,I,D]
+        return [op,P,I,D,prev]
 
 while True:
-    print(str(pid(Set,deg,prev,ierr,dt,KP,KI,KD)))
+
+    print(str(pid(Set,ierr,dt,KP,KI,KD)))
+    
     position = encoder.position
     if position == (last_position+1):
         menu+=1
     elif position == (last_position-1):
         menu-=1
-    if menu<0:
+    if menu==0:
         menu=4
     elif menu>4:
         menu=1
@@ -105,5 +112,5 @@ while True:
     last_position = position
     time.sleep(dt)
     print("-------------")
-
+    print(str(menu))
 #    pid(Set,deg,prev,ierr,dt,KP,KI,KD)
