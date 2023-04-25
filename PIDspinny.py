@@ -26,21 +26,23 @@ button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
 deg=0
+#subtract 12.9 degrees
 KP=1
 KI=1
 KD=1
 encoder.position=0
-menu=4
+menu=1
 last_position = -2
 Set=45
-dt=.25
+dt=.1
 prev = 0
-deg = 0
+deg = -12.9
 ierr=0
 op=0
 P=0
 I=0
 D=0
+up=1
 def pid(Set,ierr,dt,KP,KI,KD):
         global prev
         global deg
@@ -48,7 +50,7 @@ def pid(Set,ierr,dt,KP,KI,KD):
         op0 = 0
         # upper and lower bounds on heater level
         ophi = 100
-        oplo = 0
+        oplo = 10
         # calculate the error
         print("prev = "+str(prev))
         print("deg = "+str(deg))
@@ -80,9 +82,9 @@ while True:
     print(str(pid(Set,ierr,dt,KP,KI,KD)))
     
     position = encoder.position
-    if position == (last_position+1):
+    if position > last_position:
         menu+=1
-    elif position == (last_position-1):
+    elif position < last_position:
         menu-=1
     if menu==0:
         menu=4
@@ -98,19 +100,26 @@ while True:
             lcd.print("kI = "+str(KI))
         if menu == 3:
             lcd.print("kD = "+str(KD))
-    if menu == 4:
-        lcd.clear()
-        lcd.print("output= "+str(op))
+        if menu == 4:
+            lcd.print("Direction?")
     #increases variable by 1 if button is down
     if not button.value:
         if menu == 1:
-            KP += 1
+            KP += up
         if menu == 2:
-            KI += 1
+            KI += up
         if menu == 3:
-            KD += 1
+            KD += up
+        if menu == 4:
+            lcd.clear()
+            up *= -1
+            if up == 1:
+                lcd.print("Increase▲")
+            elif up == -1:
+                lcd.print("Decrease▼")
+              
+
     last_position = position
     time.sleep(dt)
     print("-------------")
-    print(str(menu))
 #    pid(Set,deg,prev,ierr,dt,KP,KI,KD)
