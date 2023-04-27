@@ -25,24 +25,25 @@ button = digitalio.DigitalInOut(board.D4)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
-deg=0
+deg = 0
 #subtract 12.9 degrees
-KP=1
-KI=1
-KD=1
-encoder.position=0
-menu=1
+KP = 1
+KI = 1
+KD = 1
+encoder.position = 0
+menu = 1
+m_edit = False
 last_position = -2
-Set=45
-dt=.1
+Set = 45
+dt = .1
 prev = 0
 deg = -12.9
-ierr=0
-op=0
-P=0
-I=0
-D=0
-up=1
+ierr = 0
+op = 0
+P = 0
+I = 0
+D = 0
+up = 1
 def pid(Set,ierr,dt,KP,KI,KD):
         global prev
         global deg
@@ -52,7 +53,6 @@ def pid(Set,ierr,dt,KP,KI,KD):
         ophi = 100
         oplo = 10
         # calculate the error
-        print("prev = "+str(prev))
         print("deg = "+str(deg))
         prev = deg
         
@@ -75,23 +75,41 @@ def pid(Set,ierr,dt,KP,KI,KD):
             # clip output
             op = max(oplo,min(ophi,op))
         # return the controller output and PID terms
-        return [op,P,I,D,prev]
+        return [op,P,I,D,error]
 
 while True:
 
     print(str(pid(Set,ierr,dt,KP,KI,KD)))
     
     position = encoder.position
-    if position > last_position:
-        menu+=1
+    
+    if position > last_position: # Changes the PID values if edit mode is on, changes the menu if edit mode is off
+        if m_edit == True:
+            if menu == 1:
+                KP += 1
+            elif menu == 2:
+                KI += 1
+            elif menu == 3:
+                KD += 1
+        else:
+            menu+=1
     elif position < last_position:
-        menu-=1
-    if menu==0:
-        menu=4
-    elif menu>4:
-        menu=1
+        if m_edit == True:
+            if menu == 1:
+                KP -= 1
+            elif menu == 2:
+                KI -= 1
+            elif menu == 3:
+                KD -= 1
+        else:
+            menu-=1
 
-#checks which page is selected
+    if menu == 0: # Stops the menu from going too far
+        menu = 3
+    elif menu > 3:
+        menu = 1
+
+# checks which page is selected
     if position != last_position or not button.value:
         lcd.clear()
         if menu == 1:
@@ -100,26 +118,15 @@ while True:
             lcd.print("kI = "+str(KI))
         if menu == 3:
             lcd.print("kD = "+str(KD))
-        if menu == 4:
-            lcd.print("Direction?")
-    #increases variable by 1 if button is down
-    if not button.value:
-        if menu == 1:
-            KP += up
-        if menu == 2:
-            KI += up
-        if menu == 3:
-            KD += up
-        if menu == 4:
-            lcd.clear()
-            up *= -1
-            if up == 1:
-                lcd.print("Increase▲")
-            elif up == -1:
-                lcd.print("Decrease▼")
-              
+        if m_edit == True:
+            lcd.print("          Editing ^v")
+
+    if not button.value:   # Toggles the edit mode
+       if m_edit == False:
+            m_edit = True
+       else:
+            m_edit = False
 
     last_position = position
-    time.sleep(dt)
+    time.sleep(dt) # Sleeps for a controlled amount of time to make the gyroscope and PID work.
     print("-------------")
-#    pid(Set,deg,prev,ierr,dt,KP,KI,KD)
