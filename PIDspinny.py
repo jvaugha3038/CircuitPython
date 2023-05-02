@@ -9,7 +9,7 @@ import pwmio
 
 # get and i2c object
 i2c = board.I2C()
-fan = pwmio.PWMOut(board.D10, duty_cycle=0, frequency=440, variable_frequency=True)
+fan = pwmio.PWMOut(board.D7, duty_cycle=0, frequency=440, variable_frequency=True)
 # some LCDs are 0x3f... some are 0x27.
 
 mpu = adafruit_mpu6050.MPU6050(i2c)
@@ -24,8 +24,11 @@ encoder = rotaryio.IncrementalEncoder(board.D2, board.D3, divisor=2)
 button = digitalio.DigitalInOut(board.D4)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
+# on/off switch setup
+switch = digitalio.DigitalInOut(board.D8)
+switch.direction = digitalio.Direction.INPUT
+switch.pull = digitalio.Pull.UP
 
-deg = 0
 #subtract 12.9 degrees
 KP = 1
 KI = 1
@@ -43,7 +46,6 @@ op = 0
 P = 0
 I = 0
 D = 0
-up = 1
 def pid(Set,ierr,dt,KP,KI,KD):
         global prev
         global deg
@@ -78,11 +80,9 @@ def pid(Set,ierr,dt,KP,KI,KD):
         return [op,P,I,D,error]
 
 while True:
-
     print(str(pid(Set,ierr,dt,KP,KI,KD)))
     
     position = encoder.position
-    
     if position > last_position: # Changes the PID values if edit mode is on, changes the menu if edit mode is off
         if m_edit == True:
             if menu == 1:
