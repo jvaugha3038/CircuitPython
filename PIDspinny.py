@@ -9,7 +9,7 @@ import pwmio
 
 # get and i2c object
 i2c = board.I2C()
-fan = pwmio.PWMOut(board.D7, duty_cycle=0, frequency=440, variable_frequency=True)
+fan = pwmio.PWMOut(board.A1, duty_cycle=0, frequency=440, variable_frequency=True)
 # some LCDs are 0x3f... some are 0x27.
 
 mpu = adafruit_mpu6050.MPU6050(i2c)
@@ -20,8 +20,8 @@ print("hey")
 time.sleep(1)
 lcd.clear()
 #setting up stuff
-encoder = rotaryio.IncrementalEncoder(board.D2, board.D3, divisor=2)
-button = digitalio.DigitalInOut(board.D4)
+encoder = rotaryio.IncrementalEncoder(board.D1, board.D2, divisor=2)
+button = digitalio.DigitalInOut(board.D3)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 # on/off switch setup
@@ -30,6 +30,7 @@ switch.direction = digitalio.Direction.INPUT
 switch.pull = digitalio.Pull.UP
 
 #subtract 12.9 degrees
+#variable soup
 KP = 1
 KI = 1
 KD = 1
@@ -37,7 +38,7 @@ encoder.position = 0
 menu = 1
 m_edit = False
 last_position = -2
-Set = 45
+Set = 0
 dt = .1
 prev = 0
 deg = -12.9
@@ -46,6 +47,7 @@ op = 0
 P = 0
 I = 0
 D = 0
+#defining the pid function
 def pid(Set,ierr,dt,KP,KI,KD):
         global prev
         global deg
@@ -59,12 +61,12 @@ def pid(Set,ierr,dt,KP,KI,KD):
         prev = deg
         
         deg=(round(float(mpu.gyro[0])+0.038, 1)*(dt)*(180/3.14159))+prev
-        
+        # calculate the measurement derivative
         dpv = (deg - prev) / dt
         error = Set-deg
         # calculate the integral error
         ierr = ierr + KI * error * dt
-        # calculate the measurement derivative
+
 
         # calculate the PID output
         P = KP * error
@@ -81,7 +83,8 @@ def pid(Set,ierr,dt,KP,KI,KD):
 
 while True:
     print(str(pid(Set,ierr,dt,KP,KI,KD)))
-    
+    fan.duty_cycle = map(op, 10, 100, 0, 65535)
+
     position = encoder.position
     if position > last_position: # Changes the PID values if edit mode is on, changes the menu if edit mode is off
         if m_edit == True:
