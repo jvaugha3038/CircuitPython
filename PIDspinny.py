@@ -51,6 +51,7 @@ D = 0
 def pid(Set,ierr,dt,KP,KI,KD):
         global prev
         global deg
+        global op
         # Parameters in terms of PID coefficients
         op0 = 0
         # upper and lower bounds on heater level
@@ -83,7 +84,8 @@ def pid(Set,ierr,dt,KP,KI,KD):
 
 while True:
     print(str(pid(Set,ierr,dt,KP,KI,KD)))
-    fan.duty_cycle = map(op, 10, 100, 0, 65535)
+    fan.duty_cycle = int(op)*65535//100
+
 
     position = encoder.position
     if position > last_position: # Changes the PID values if edit mode is on, changes the menu if edit mode is off
