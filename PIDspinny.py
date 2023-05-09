@@ -6,10 +6,11 @@ import rotaryio
 import digitalio
 import adafruit_mpu6050
 import pwmio
+from simpleio import map_range
 
 # get and i2c object
 i2c = board.I2C()
-fan = pwmio.PWMOut(board.A1, duty_cycle=0, frequency=440, variable_frequency=True)
+fan = pwmio.PWMOut(board.D4, duty_cycle=0, frequency=440, variable_frequency=True)
 # some LCDs are 0x3f... some are 0x27.
 
 mpu = adafruit_mpu6050.MPU6050(i2c)
@@ -47,6 +48,9 @@ op = 0
 P = 0
 I = 0
 D = 0
+toggle=1
+allow=1 # if 1, allows the button to be pressed again
+now=0
 #defining the pid function
 def pid(Set,ierr,dt,KP,KI,KD):
         global prev
@@ -61,7 +65,7 @@ def pid(Set,ierr,dt,KP,KI,KD):
         print("deg = "+str(deg))
         prev = deg
         
-        deg=(round(float(mpu.gyro[0])+0.038, 1)*(dt)*(180/3.14159))+prev
+        deg=((round(float(mpu.gyro[0])+0.038, 1)*(dt)*(180/3.14159))*-1)+prev
         # calculate the measurement derivative
         dpv = (deg - prev) / dt
         error = Set-deg
@@ -83,9 +87,12 @@ def pid(Set,ierr,dt,KP,KI,KD):
         return [op,P,I,D,error]
 
 while True:
-    print(str(pid(Set,ierr,dt,KP,KI,KD)))
-    fan.duty_cycle = int(op)*65535//100
-
+    if toggle == 1:
+        print(str(pid(Set,ierr,dt,KP,KI,KD)))
+        fan.duty_cycle = int(map_range(op, 10, 100, 30000, 65400))
+        print("-------------")
+    else:
+        fan.duty_cycle = 0
 
     position = encoder.position
     if position > last_position: # Changes the PID values if edit mode is on, changes the menu if edit mode is off
@@ -110,8 +117,8 @@ while True:
             menu-=1
 
     if menu == 0: # Stops the menu from going too far
-        menu = 3
-    elif menu > 3:
+        menu = 5
+    elif menu > 5:
         menu = 1
 
 # checks which page is selected
@@ -123,15 +130,28 @@ while True:
             lcd.print("kI = "+str(KI))
         if menu == 3:
             lcd.print("kD = "+str(KD))
+        if menu == 4:
+            lcd.print("PID on/off")
+        if menu == 5:
+            lcd.print("Recalibrate!!")
         if m_edit == True:
             lcd.print("          Editing ^v")
 
-    if not button.value:   # Toggles the edit mode
-       if m_edit == False:
-            m_edit = True
-       else:
-            m_edit = False
-
+    if not button.value and allow == 1:   # Toggles the edit mode
+        if menu == 4:
+            toggle*=-1
+        elif menu == 5:
+            deg=-12.9
+            prev=0
+        else:
+            if m_edit == False:
+                m_edit = True
+            else:
+                m_edit = False
+        allow=0 # maybe combine allow and now into one variable that does both?
+        now = time.monotonic()
+    if (now + 0.5) < time.monotonic():
+        allow=1
     last_position = position
     time.sleep(dt) # Sleeps for a controlled amount of time to make the gyroscope and PID work.
-    print("-------------")
+
