@@ -10,7 +10,7 @@ from simpleio import map_range
 
 # get and i2c object
 i2c = board.I2C()
-fan = pwmio.PWMOut(board.D4, duty_cycle=0, frequency=440, variable_frequency=True)
+fan = pwmio.PWMOut(board.D11, duty_cycle=0, frequency=440, variable_frequency=True)
 # some LCDs are 0x3f... some are 0x27.
 
 mpu = adafruit_mpu6050.MPU6050(i2c)
@@ -29,7 +29,6 @@ button.pull = digitalio.Pull.UP
 switch = digitalio.DigitalInOut(board.D8)
 switch.direction = digitalio.Direction.INPUT
 switch.pull = digitalio.Pull.UP
-
 #subtract 12.9 degrees
 #variable soup
 KP = 1
@@ -89,7 +88,7 @@ def pid(Set,ierr,dt,KP,KI,KD):
 while True:
     if toggle == 1:
         print(str(pid(Set,ierr,dt,KP,KI,KD)))
-        fan.duty_cycle = int(map_range(op, 10, 100, 30000, 65400))
+        fan.duty_cycle = int(map_range(op, 10, 100, 6540, 65400))
         print("-------------")
     else:
         fan.duty_cycle = 0
@@ -103,6 +102,8 @@ while True:
                 KI += 1
             elif menu == 3:
                 KD += 1
+            elif menu == 4:
+                Set += 1
         else:
             menu+=1
     elif position < last_position:
@@ -113,6 +114,8 @@ while True:
                 KI -= 1
             elif menu == 3:
                 KD -= 1
+            elif menu == 4:
+                Set -= 1
         else:
             menu-=1
 
@@ -131,16 +134,18 @@ while True:
         if menu == 3:
             lcd.print("kD = "+str(KD))
         if menu == 4:
-            lcd.print("PID on/off")
+            lcd.print("Setpoint = "+str(Set))
         if menu == 5:
+            lcd.print("PID on/off")
+        if menu == 6:
             lcd.print("Recalibrate!!")
         if m_edit == True:
             lcd.print("          Editing ^v")
 
     if not button.value and allow == 1:   # Toggles the edit mode
-        if menu == 4:
+        if menu == 5:
             toggle*=-1
-        elif menu == 5:
+        elif menu == 6:
             deg=-12.9
             prev=0
         else:
