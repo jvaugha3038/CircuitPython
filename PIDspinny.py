@@ -1,3 +1,8 @@
+#Afton Vanhooser and Jayden Vaughan
+#PID controlled fan
+#Tries to balance itself at 0 degrees with a fan by using PID
+
+#importing all of the stuff
 import board
 from lcd.lcd import LCD
 from lcd.i2c_pcf8574_interface import I2CPCF8574Interface
@@ -14,7 +19,7 @@ fan = pwmio.PWMOut(board.D11, duty_cycle=0, frequency=440, variable_frequency=Tr
 mpu = adafruit_mpu6050.MPU6050(i2c)
 # some LCDs are 0x3f... some are 0x27.
 lcd = LCD(I2CPCF8574Interface(i2c, 0x27), num_rows=2, num_cols=16)
-#screen test
+#lcd and monitor screen test
 lcd.print("hey")
 print("hey")
 time.sleep(1)
@@ -24,28 +29,28 @@ encoder = rotaryio.IncrementalEncoder(board.D1, board.D2, divisor=4)
 button = digitalio.DigitalInOut(board.D3)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
-#subtract 12.9 degrees
+
 #variable soup
 KP = 1
 KI = 1
 KD = 1
 encoder.position = 0
-menu = 1
+menu = 1 #current menu page
 m_edit = False
 update = True
 last_position = -2
-Set = 0
-dt = .1
-prev = 0
-deg = -12.9
-pdeg = deg
+Set = 0 #target angle
+dt = .1 #time interval
+prev = 0 #previous angle, used in pid function
+deg = -12.9 #starting angle when on a table
+pdeg = deg #prevvious angle, used outside pid function
 updTime = 0
 ierr = 0
-op = 0
-P = 0
+op = 0 #pid function output
+P = 0 #function variables
 I = 0
 D = 0
-toggle=1
+toggle=1 #button variables
 allow=1 # if 1, allows the button to be pressed again
 now=0
 #defining the pid function
@@ -100,7 +105,7 @@ while True:
             elif menu == 4:
                 Set += 1
         else:
-            menu+=1
+            menu+=1 #changes menu screen when edit mode is off
     elif position < last_position:
         if m_edit == True:
             if menu == 1:
@@ -112,7 +117,7 @@ while True:
             elif menu == 4:
                 Set -= 1
         else:
-            menu-=1
+            menu-=1 #changes menu screen when edit mode is off
 
     if menu == 0: # Stops the menu from going too far
         menu = 5
@@ -154,8 +159,8 @@ while True:
                 m_edit = True
             else:
                 m_edit = False
-        update = True # updates te LCD to reflect recent changes
-        allow = 0 # maybe combine allow and now into one variable that does both?
+        update = True # updates the LCD to reflect recent changes
+        allow = 0 #button cooldown system
         now = time.monotonic()
     if (now + 0.5) < time.monotonic():
         allow = 1
